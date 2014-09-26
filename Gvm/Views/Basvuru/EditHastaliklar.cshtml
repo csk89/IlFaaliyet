@@ -1,0 +1,103 @@
+﻿@model Turkok.Model.Hastaliklar
+
+@{
+    ViewBag.Title = "Verici Hastalık Bilgileri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Verici Hastalık Bilgileri</h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <i class="fa fa-stethoscope"></i>
+                        <h3 class="box-title">Hastaliklar bilgilerini duzenle</h3>
+                    </div>
+                    <div class="box-body">
+                        @using (Html.BeginForm("EditHastaliklar", "Basvuru", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.GonulluVerici)
+
+                            <div class="form-horizontal"> 
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SurekliTedaviOlmasiGereklimi, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.SurekliTedaviOlmasiGereklimi)
+                                            @Html.ValidationMessageFor(model => model.SurekliTedaviOlmasiGereklimi, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.HepatitC, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.HepatitC)
+                                            @Html.ValidationMessageFor(model => model.HepatitC, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.HepatitB, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.HepatitB)
+                                            @Html.ValidationMessageFor(model => model.HepatitB, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Sifiliz, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.Sifiliz)
+                                            @Html.ValidationMessageFor(model => model.Sifiliz, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Kanser, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.Kanser)
+                                            @Html.ValidationMessageFor(model => model.Kanser, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.AidsHiv, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.AidsHiv)
+                                            @Html.ValidationMessageFor(model => model.AidsHiv, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Kaydet" class="btn btn-default" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>

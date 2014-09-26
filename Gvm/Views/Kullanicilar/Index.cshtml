@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Kendo.Mvc.UI
+@using Turkok.Model
+@using Gvm.Infra
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Basvurular</h1>
+    </section>
+
+    <section class="content">
+        <div class="row box-danger">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+
+                    </div>
+                    <div class="box-body" style="padding: 10px;">
+
+                        @*<div class="well" style="padding-bottom: 20px;">
+                            <a class="btn btn-default" href="@Url.Action("CreateUser", "Kullanicilar")"><i class="fa  fa-plus"></i>&nbsp;&nbsp;Yeni Kullanıcı</a>
+                        </div>*@
+
+                        @(Html.Kendo().Grid<ApplicationUser>()
+                        .Name("grid")
+                        .Columns(columns =>
+                            {
+                                columns.Bound(p => p.UserName).Width(220).Title("Kullanıcı Adı");
+                                columns.Bound(p => p.DateCreated).Width(220)
+                                       .ClientTemplate("#= kendo.toString(DateCreated, 'g') #").Title("Başvuru Tarihi");
+                                columns.Bound(p => p.FullName).Width(220).Title("Adı-Soyadı");
+                                columns.Bound(p => p.UserRole).Width(120).Title("Rolü");
+                                columns.Bound(p => p.Active).Width(120)
+                                       .ClientTemplate("#if(Active){# <a class='btn btn-default' href='" + Url.Action("EditUser", "Kullanicilar") + "?username=#:UserName#'><i class='fa fa-pencil'></i>&nbsp;&nbsp;Rolü Düzelt</a> #}" +
+                                                       "else       {# <a class='btn btn-primary' href='" + Url.Action("ApproveUser", "Kullanicilar") + "?username=#:UserName#'><i class='fa fa-play-circle'></i>&nbsp;&nbsp;Onayla</a>#}#").Title("");
+                            })
+                        .Pageable(pageable => pageable.Refresh(true).PageSizes(true).ButtonCount(5))
+                        .Sortable()
+                        .Scrollable()
+                        .HtmlAttributes(new { style = "height:430px;" })
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                                .Events(events => events.Error("error_handler"))
+                                .Model(model => model.Id(p => p.Id))
+                                .Read(read => read.Action("Read", "Kullanicilar"))
+                        )
+                        )
+
+                    </div>
+
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
+
+<script type="text/javascript">
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+
+            alert(message);
+        }
+    }
+</script>

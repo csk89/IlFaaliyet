@@ -1,0 +1,104 @@
+﻿@using Turkok.Model.Audit
+
+@{
+    ViewBag.Title = "Audit Trails";
+}
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Audit Trails</h1>
+    </section>
+
+    <section class="content">
+        <div class="row box-danger">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+
+                    </div>
+                    <div class="box-body" style="padding: 10px;">
+
+                        @(Html.Kendo().Grid<Audit>()
+                            .Name("grid")
+                            .Columns(columns =>
+                            {
+                                columns.Bound(p => p.Id).Filterable(ftb => ftb.Cell(cell => cell.ShowOperators(false)));
+                                columns.Bound(p => p.IpAddress);
+                                columns.Bound(p => p.SessionId).Filterable(false);
+                                columns.Bound(p => p.Timestamp).Format("{0:MM/dd/yyyy hh:ss}");
+                                columns.Bound(p => p.UrlAccessed);
+                                columns.Bound(p => p.UserName);
+                                columns.Command(command => command.Custom("ViewDetails").Click("showDetails"));
+                            })
+                            .Pageable(pageable => pageable.Refresh(true).ButtonCount(10).PageSizes(new int[] { 10, 20, 50 }))
+                            .Sortable()
+                            .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+                            .Scrollable(scrollable => scrollable.Enabled(true))
+                            .Resizable(resize => resize.Columns(true))
+                            .Reorderable(reorder => reorder.Columns(true))
+                            .HtmlAttributes(new { style = "height:800px;" })
+                            .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .PageSize(40)
+                                .Events(events => events.Error("error_handler"))
+                                .Model(model => model.Id(p => p.Id))
+                                .Read(read => read.Action("Read", "AuditTrails"))
+                            )
+                        )
+
+
+                        @(Html.Kendo().Window().Name("Details")
+                            .Title("Audit Details")
+                            .Visible(false)
+                            .Modal(true)
+                            .Draggable(true)
+                            .Width(800)
+                        )
+
+                    </div>
+
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
+
+<script type="text/x-kendo-template" id="template">
+    <div id="details-container">
+        <p>#= Data #</p>
+    </div>
+</script>
+
+<script type="text/javascript">
+    var detailsTemplate = kendo.template($("#template").html());
+
+    function showDetails(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#Details").data("kendoWindow");
+
+        wnd.content(detailsTemplate(dataItem));
+        wnd.center().open();
+    }
+
+</script>
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

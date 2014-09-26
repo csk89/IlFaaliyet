@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Duyurular";
+}
+
+@using Kendo.Mvc.UI
+@using Thinktecture.IdentityModel.Authorization
+@using Turkok.Model
+@using Turkok.Model.Lookup
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Duyurular</h1>
+    </section>
+
+    <section class="content">
+        <div class="row box-danger">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+
+                    </div>
+                    <div class="box-body" style="padding: 10px;">
+                       
+                        @if (ClaimsAuthorization.CheckAccess(Resources.DokumanlarActions.Edit, Resources.Duyurular))
+                        {
+                            <div class="well" style="padding-bottom: 20px;">
+                                <a class="btn btn-primary" href="@Url.Action("Create", "Announcements")"><i class="fa  fa-plus-square-o"></i>&nbsp;&nbsp;Yeni Duyuru</a>
+                            </div>
+                        }
+
+                        @(Html.Kendo().Grid<Announcement>()
+                              .Name("grid")
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(p => p.Title).ClientTemplate("<a href='/Announcements/View/#= Id#'>#=Title#</a>");
+                                  columns.Bound(p => p.PublishDate).Format("{0:dd/MM/yyyy}").Width(120);
+                                  columns.Bound(p => p.CreatedBy).Width(120);
+                              })
+                              .Pageable(pageable => pageable.Refresh(true).PageSizes(true).ButtonCount(5))
+                              .Sortable()
+                              .Scrollable()
+                              .HtmlAttributes(new { style = "height:600px;" })
+                              .DataSource(dataSource => dataSource
+                                  .Ajax()
+                                  .PageSize(20)
+                                  .Events(events => events.Error("error_handler"))
+                                  .Model(model => model.Id(p => p.Id))
+                                  .Read(read => read.Action("Read", "Announcements"))
+                              )
+                        )
+                    </div>
+
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
+
+<script type="text/javascript">
+    function error_handler(e) {
+
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+
+            alert(message);
+        }
+    }
+
+</script>

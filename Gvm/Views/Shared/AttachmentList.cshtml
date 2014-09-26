@@ -1,0 +1,17 @@
+﻿@model  ICollection<Turkok.Model.Attachment>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-responsive table-striped">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><i class="fa fa-file"></i>  <a href="@item.Path"> @item.Name</a></td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <text>Eklenti yok.</text>
+}

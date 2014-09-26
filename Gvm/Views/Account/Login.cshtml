@@ -1,0 +1,78 @@
+﻿@using Gvm.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@section HeaderButtons
+{
+    <span id="extr-page-header-space"> <a href="@Url.Action("Register", "Account")" class="btn btn-danger btn-flat">Üye Ol</a> </span>
+}
+
+<style>
+    .form-box .header {
+        background: #269abc !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-6 hidden-xs">
+        <div class="box-info" style="margin-top: 90px;">
+            <div class="span3">
+                <div class="well">
+                    <h3 class="text-center text-muted">Türkök Nedir ?</h3>
+                    <p>
+                        Yürütülecek hizmetin sürekliliğinin sağlanabilmesi bakımından, 209 sayılı Sağlık Bakanlığına Bağlı Sağlık Kurumları İle Esenlendirme (Rehabilitasyon) Tesislerine Verilecek Döner Sermaye Hakkında Kanun hükümleri ve ilgili diğer mevzuata göre TÜRKÖK bünyesinde döner sermaye kurulur ve ilgili mevzuat hükümleri çerçevesinde faaliyet yürütür. 
+                    </p>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="well">
+                    <h3 class="text-center text-muted">Türkök Faaliyetleri</h3>
+                    <p>
+                        TÜRKÖK, akraba dışı hematopoetik kök hücre nakli gereken hastaların tedavisi için, gönüllü verici olmak isteyenlerin doku tipleme sonuçlarının saklanması ve bunların kemik iliği nakli için gönüllü verici ihtiyacı olan hastalarla eşleştirilmesi işlemlerini yapmak, kemik iliği nakli öncesinde, nakil sırasında ve sonrasında üçüncü taraflarla koordinasyonu sağlamak amacıyla, Ankara İl Sağlık Müdürlüğüne bağlı bir merkez olarak faaliyet gösterir.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <div class="form-box" id="login-box">
+            <div class="header">Giriş Ekranı</div>
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="body bg-gray">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "E-posta", @autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Şifre", @autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                    </div>
+
+                    @Html.ActionLink("Şifremi Unuttum", "ForgotPassword", "Account")
+                </div>
+                <div class="footer">
+                    <button type="submit" class="btn bg-light-blue btn-block">Gir</button>
+                </div>
+            }
+
+            @*<div class="margin text-center">
+                    <span>Başka Yolla Giriş Yapın</span>
+                    <br>
+                    <button class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
+                    <button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
+                    <button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>
+                </div>*@
+        </div>
+    </div>
+</div>
+

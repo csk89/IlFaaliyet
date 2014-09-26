@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Dökümanlar";
+}
+
+@using Turkok.Model
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Dökümanlar</h1>
+    </section>
+
+    <section class="content">
+        <div class="row box-danger">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+
+                    </div>
+                    <div class="box-body" style="padding: 10px;">
+                        <div class="pull-left">
+                            @Html.ActionLink("Yeni döküman", "Create", "Documents", null, new { @class = "btn btn-primary" })
+                        </div>
+
+                        <div class="clearfix"></div>
+                        @(Html.Kendo().Grid<Document>()
+              .Name("grid")
+              .Columns(columns =>
+              {
+                  columns.Bound(p => p.Title).ClientTemplate("<a href='/Documents/View/#= Id#'>#=Title#</a>");
+                  columns.Bound(p => p.PublishDate).Format("{0:dd/MM/yyyy}").Width(120);
+                  columns.Bound(p => p.CreateBy).Width(120);
+              })
+              .Pageable(pageable => pageable.Refresh(true).PageSizes(true).ButtonCount(5))
+              .Sortable()
+              .Scrollable()
+              .HtmlAttributes(new { style = "height:600px;" })
+              .DataSource(dataSource => dataSource
+                  .Ajax()
+                  .PageSize(20)
+                  .Events(events => events.Error("error_handler"))
+                  .Model(model => model.Id(p => p.Id))
+                  .Read(read => read.Action("Read", "Documents"))
+              )
+                        )
+                    </div>
+
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
+
+<script type="text/javascript">
+    function error_handler(e) {
+
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+
+            alert(message);
+        }
+    }
+
+</script>

@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Gönüllü Veri merkezi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Gonullu verici Merkezleri</h1>
+    </section>
+
+    <section class="content">
+        <div class="row box-danger">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+
+                    </div>
+
+                    <div class="box-body" style="padding: 10px;">
+                        @using Kendo.Mvc.UI
+                        @using Turkok.Model
+                        @(Html.Kendo().Grid<GonulluVericiMerkezi>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Adi).Width(120);
+        columns.Bound(p => p.Adres).Width(120);
+        columns.Bound(p => p.Telefon).Width(120);
+        columns.Bound(p => p.SehirId).EditorTemplateName("Sehirler").Title("Şehir").ClientTemplate("#:SehirAdi#").Width(120);
+        columns.Bound(p => p.EmailAdresi).Width(100);
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(220);
+    })
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+    .Pageable(pageable => pageable.Refresh(true).PageSizes(true).ButtonCount(5))
+    .Sortable()
+    .Scrollable()
+    .HtmlAttributes(new { style = "height:430px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.Id))
+                    .Create(update => update.Action("Create", "GonulluVericiMerkezi"))
+                    .Read(read => read.Action("Read", "GonulluVericiMerkezi"))
+                    .Update(update => update.Action("Update", "GonulluVericiMerkezi"))
+                    .Destroy(update => update.Action("Destroy", "GonulluVericiMerkezi"))
+    )
+                        )
+                    </div>
+
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
+
+
+
+<script type="text/javascript">
+    function error_handler(e) {
+
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+
+            alert(message);
+        }
+    }
+
+</script>

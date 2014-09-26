@@ -1,0 +1,172 @@
+﻿@model Gvm.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Üye Ol";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@section HeaderButtons
+{
+    <span id="extr-page-header-space"> <a href="@Url.Action("Login", "Account")" class="btn btn-info btn-flat">Giriş Yap</a> </span>
+}
+
+<style>
+    .alert {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        margin-bottom: 0 !important;
+        color: #a94442 !important;
+    }
+</style>
+
+<div class="form-box" id="login-box">
+    <div class="header">Uyelik Ekranı</div>
+    @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @autocomplete = "off" }))
+    {
+        @Html.AntiForgeryToken()
+        
+        if (ViewData.ModelState.IsValid == false)
+        {
+            <div class="alert alert-dismissable alert-success flat text-left">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                @Html.ValidationSummary(true)
+                @Html.ValidationMessage("Error")
+                @Html.ValidationMessage("")
+            </div>
+        }
+        
+        <div class="body bg-gray">
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.TextBoxFor(model => model.TcNo, new { @class = "form-control", @placeholder = "Tc Numarası", @autocomplete = "off" })
+                    @Html.ValidationMessageFor(model => model.TcNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    @Html.TextBoxFor(model => model.CiltNo, new { @class = "form-control", @placeholder = "Cilt No", @autocomplete = "off" })
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(model => model.AileSiraNo, new { @class = "form-control", @placeholder = "AileSıra", @autocomplete = "off" })
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBoxFor(model => model.BireySiraNo, new { @class = "form-control", @placeholder = "Sıra No", @autocomplete = "off" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "E-posta", @autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">0</span>
+                        @Html.EditorFor(model => model.WorkPhone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ev/İş Telefonu", @autocomplete = "off" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.WorkPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">0</span>
+                        <input type="text" style="display:none;">
+                        @Html.EditorFor(model => model.CellPhone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Cep Telefonu", @autocomplete = "off" } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.CellPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="text" style="display:none;">
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Şifre", @autocomplete = "off" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", @placeholder = "Şifre Doğrulaması", @autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.NotWorkingForUnit, new { @autocomplete = "off" })
+                    Bir gönüllü veri merkezinde çalışmıyorum.
+                </div>
+            </div>
+            @*<div class="form-group">
+                <div class="col-md-12">
+                    @Html.CheckBoxFor(model => model.NotWorkingForUnit, new { @class = "form-control", @autocomplete = "off" })
+                </div>
+            </div>*@
+
+            <div class="form-group veri-merkezi-grubu">
+                <div class="col-md-12">
+                    <select id="UnitId" name="UnitId" class="form-control">
+                        <option value=""> Hangi merkezde çalışıyorsunuz?</option>
+                        @foreach (var unit in Model.Units)
+                        {
+                            <option value="@unit.Id">@unit.SehirAdi - @unit.Adi</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group veri-merkezi-grubu">
+                <div class="col-md-12">
+                    @Html.EnumDropDownListFor(model => model.UserRoleInUnit, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button type="submit" class="btn bg-olive btn-block">Üye Ol</button>
+        </div>
+    }
+
+    @*<div class="margin text-center">
+            <span>Başka Yolla Üye Olun</span>
+            <br>
+            <button class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
+            <button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
+            <button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>
+        </div>*@
+</div>
+
+<script>
+    function init() {
+        var gvmCalisaniDegil = $('input#NotWorkingForUnit');
+        var veriMerkeziGrubu = $('.veri-merkezi-grubu');
+
+        if (gvmCalisaniDegil.is(':checked')) {
+            veriMerkeziGrubu.hide();
+        }
+        else veriMerkeziGrubu.show();
+    }
+
+    function setGvmCalisaniCheck() {
+        $('input#NotWorkingForUnit').change(function () {
+            var $this = $(this);
+            var veriMerkeziGrubu = $('.veri-merkezi-grubu');
+
+            if ($this.is(':checked')) {
+                veriMerkeziGrubu.hide();
+            }
+            else veriMerkeziGrubu.show();
+        });
+    }
+
+    $(document).ready(function () {
+        init();
+        setGvmCalisaniCheck();
+    });
+</script>

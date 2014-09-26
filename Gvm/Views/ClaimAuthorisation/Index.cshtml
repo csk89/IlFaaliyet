@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Yetki Yönetimi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Kendo.Mvc.UI
+@using Microsoft.AspNet.Identity.EntityFramework
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Yetki Yonetimi</h1>
+    </section>
+
+    <section class="content">
+        <div class="row box-danger">
+            <div class="col-xs-12">
+                
+                @if (ViewData.ModelState.IsValid == false)
+                {
+                    <div class="alert alert-danger alert-dismissable">
+                        <i class="fa fa-ban"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        @Html.ValidationSummary(true)
+                        @Html.ValidationMessage("Error")
+                    </div>
+                }
+
+                <div class="box">
+                    <div class="box-header">
+
+                    </div>
+                    <div class="box-body" style="padding: 10px;">
+
+                        <div class="well" style="padding-bottom: 20px;">
+                            <a class="btn btn-primary" data-toggle="modal" data-target="#createRole"><i class="fa  fa-plus-square-o"></i>&nbsp;&nbsp;Yeni Rol</a>
+                        </div>
+                        
+                        @(Html.Kendo().Grid<IdentityRole>()
+                              .Name("grid")
+                              //.Events(x => x.DataBound("databound_handler"))
+                              .Columns(columns =>
+                              {
+                                  columns.Bound(p => p.Name).Width(220).Title("Rol Adı");
+                                  columns.Bound(p => p.Id).Width(120)
+                                      .ClientTemplate("<a class='btn btn-danger' href='" + Url.Action("DeleteRole", "ClaimAuthorisation") + "?roleName=#:Name#'><i class='fa fa-eraser'></i>&nbsp;&nbsp;Rolü Sil</a>").Title("");
+                                  columns.Bound(p => p.Name).Width(120)
+                                      .ClientTemplate("<a class='btn btn-default' href='" + Url.Action("RoleAuthorisations", "ClaimAuthorisation") + "?roleName=#:Name#'><i class='fa fa-pencil'></i>&nbsp;&nbsp;Yetkileri Düzenle</a>").Title("");
+                              })
+                              .Editable(editable => editable.Mode(GridEditMode.InLine))
+                              .Pageable(pageable => pageable.Refresh(true).PageSizes(true).ButtonCount(5))
+                              .Sortable()
+                              .Scrollable()
+                              .HtmlAttributes(new { style = "height:430px;" })
+                              .DataSource(dataSource => dataSource
+                                  .Ajax()
+                                  .PageSize(20)
+                                  .Events(events => events.Error("error_handler"))
+                                  .Model(model => model.Id(p => p.Id))
+                                  .Read(read => read.Action("Read", "ClaimAuthorisation"))
+                              )
+                              )
+
+                    </div>
+
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+
+            alert(message);
+        }
+    }
+</script>
+
+<div class="modal fade" id="createRole" tabindex="-1" role="dialog" aria-labelledby="createRole" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Yeni Rol</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("CreateRole", "ClaimAuthorisation", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Rol Adı</label>
+                            <div class="col-md-10">
+                                <input id="roleName" name="roleName" class="form-control" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Oluştur" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+

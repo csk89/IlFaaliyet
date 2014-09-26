@@ -1,0 +1,11 @@
+﻿@using System.Collections
+@using Turkok.Model
+@model System.Int32
+
+@(Html.Kendo().DropDownList()
+.BindTo((List<Sehir>)ViewBag.Sehirler)
+.OptionLabel("- Seçiniz - ")
+.DataValueField("Id")
+.DataTextField("Adi")
+.Name("SehirId")
+)

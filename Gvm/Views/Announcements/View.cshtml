@@ -1,0 +1,17 @@
+﻿@using Thinktecture.IdentityModel.Authorization
+@using Turkok.Model.Lookup
+@model Turkok.Model.Announcement
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+
+@if (ClaimsAuthorization.CheckAccess(Resources.DuyurularActions.Edit, Resources.Duyurular))
+{
+    @Html.Partial("_View_EditMode", Model)
+}
+else if (ClaimsAuthorization.CheckAccess(Resources.DuyurularActions.View, Resources.Duyurular))
+{
+    @Html.Partial("_View_ViewMode", Model)
+}

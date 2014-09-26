@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Kendo.Mvc.UI
+
+<aside class="right-side">
+    <section class="content-header">
+        <h1>Faaliyetler</h1>
+    </section>
+    <section class="content">
+        <div class="row box-danger">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                    </div>
+                    <div class="box-body" style="padding: 10px;">
+                        <div class="pull-left">
+                            @Html.ActionLink("Yeni Faaliyet", "Create", "Action", null, new { @class = "btn btn-primary" })
+                        </div>
+                        @(Html.Kendo().Grid<Turkok.Model.Action>()
+                        .Name("grid")
+                        .Columns(columns =>
+                            {
+                                columns.Bound(p => p.Name).Width(220).Title("Faaliyet Adı");
+                                columns.Bound(p => p.ActionId).Width(220).Title("Faaliyet No");
+                                columns.Bound(p => p.DeptCharged).Width(220).Title("Sorumlu Birim");
+                                columns.Bound(p => p.SupportUnit).Width(220).Title("Destek Birim");
+                                columns.Bound(p => p.Collaborators).Width(220).Title("İşbirliği Yapılacak Kurum ve Kuruluşlar");
+                                columns.Bound(p => p.IndicatorName).Width(220).Title("Gösterge Adı");
+                                columns.Bound(p => p.IndicatorCurrentState).Width(220).Title("Gösterge Mevcut Durumu");
+                                columns.Bound(p => p.IndicatorObjective).Width(220).Title(".... Yılı Gösterge Hedefi");
+                                columns.Bound(p => p.IndicatorOccurrenceValue).Width(220).Title("Gösterge Gerçekleşme Değeri");
+                                columns.Bound(p => p.StartDate).Width(220)
+                                       .ClientTemplate("#= kendo.toString(StartDate, 'g') #").Title("Başlangıç Zamanı");
+                                columns.Bound(p => p.EndDate).Width(220)
+                                       .ClientTemplate("#= kendo.toString(EndDate, 'g') #").Title("Bitiş Zamanı");
+                                columns.Bound(p => p.Description).Width(220).Title("Açıklama");
+                            })
+                        .Pageable(pageable => pageable.Refresh(true).PageSizes(true).ButtonCount(5))
+                        .Sortable()
+                        .Scrollable()
+                        .HtmlAttributes(new { style = "height:430px;" })
+                        .DataSource(dataSource => dataSource
+                            .Ajax()
+                            .PageSize(20)
+                                .Events(events => events.Error("error_handler"))
+                                .Model(model => model.Id(p => p.Id))
+                                .Read(read => read.Action("Read", "Action"))
+                        )
+                        )
+                    </div>
+                    <div class="box-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
+<script type="text/javascript">
+
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+
+            alert(message);
+        }
+    }
+</script>

@@ -1,0 +1,321 @@
+﻿@model Turkok.Model.Basvuru
+@{
+    ViewBag.Title = "Başvuru Detayı";
+}
+
+<aside class="right-side">
+    <section class="content-header">
+        <h1 class="pull-left">Gonullu verici</h1>
+
+        @if (Model.Completed == false)
+        {
+            if (Model.Active)
+            {
+                <h1 class="pull-right"><a href="/Basvuru/BasvuruyuPasifYap?id=@Model.Id" class="btn btn-sm btn-default">Pasif yap</a></h1>
+            }
+            else
+            {
+                <h1 class="pull-right"><a href="/Basvuru/BasvuruyuAktifYap?id=@Model.Id" class="btn btn-sm btn-default">Aktif yap</a></h1>
+            }
+        }
+
+
+        @if (Model.IsComplete() == false && Model.Completed == false)
+        {
+            <h1 class="pull-right"><a href="/Basvuru/DeleteBasvuru?id=@Model.Id" class="btn btn-sm btn-danger">Sil</a></h1>
+        }
+
+        <div class="clearfix"></div>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            
+            @if (Model.Active == false)
+            {
+                <div class="callout callout-danger">
+                    <h4>Uyari</h4>
+                    <p>Bu basvuru aktif degil!.</p>
+                </div>
+            }
+
+            @if (Model.GonulluVerici.KaraListedemi)
+            {
+                <div class="callout callout-danger">
+                    <h4>Uyari</h4>
+                    <p>Bu kullanici kara listededir.</p>
+                </div>
+            }
+
+            @if (Model.IsComplete() && Model.BifCiktisiTamamlandi == false)
+            {
+                <div class="callout callout-danger"> 
+                    <a href="/Basvuru/BifCiktisi?id=@Model.Id" class="btn btn-warning btn-lg">BIF Ciktisi al</a>
+                </div>
+            }
+
+            @if (Model.IsComplete() && Model.BifCiktisiTamamlandi)
+            {
+                if (Model.Completed == true)
+                {
+                    <div class="callout callout-info">
+                        <h4><i class="fa fa-check" style="color:green"></i> Basvuru Tamamlanmistir</h4>
+                    </div>
+                }
+                else
+                {
+                    <div class="callout callout-danger">
+                        <a href="/Basvuru/BasvuruyuTamamla?id=@Model.Id" class="btn btn-danger btn-lg">Basvuruyu Tamamla</a>
+                    </div>
+                }
+            }
+
+            <div class="col-xs-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">@Model.GonulluVerici.AdiSoyadi</h3>
+                    </div>
+                    <div class="box-body">
+                        <label class="text-light-blue">Olusturuldugu tarih :</label> @Model.DateCreated <br />
+                        <label class="text-light-blue">Kaydi giren :</label> @Model.CreatedBy.FullName <br />
+                        <label class="text-light-blue">Gonullu Verici Merkezi:</label> @Model.GonulluVericiMerkezi.Adi <br />
+                        <label class="text-light-blue">Adi Soyadi</label> @Model.GonulluVerici.AdiSoyadi <br />
+                        <label class="text-light-blue">TC Kimlik No : </label> @Model.GonulluVerici.TcKimlikNo <br />
+                        <label class="text-light-blue">Dogum tarihi : </label> @Model.GonulluVerici.DogumTarihi.ToString("dd/MM/yy") <br />
+                        <label class="text-light-blue">Yasi : </label> @Model.GonulluVerici.Age() <br />
+                        <label class="text-light-blue">Cinsiyeti : </label> @Model.GonulluVerici.Cinsiyet <br />
+                    </div>
+                    <div class="box-footer">
+                        @if (Model.Active)
+                        {
+                            @Html.ActionLink("Duzenle", "EditBasvuru", "Basvuru", new { basvuru = Model.Id }, new { @class = "btn btn-sm btn-primary" })
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">Iletisim Bilgileri</h3>
+
+                        @if (Model.GonulluVerici.VericiIletisimBilgileri != null)
+                        {
+                            <i class="fa fa-check" style="color:green"></i>
+                        }
+                    </div>
+                    <div class="box-body">
+                        @if (Model.GonulluVerici.VericiIletisimBilgileri == null)
+                        {
+                            if (Model.Active)
+                            {
+                                <text>
+                                    <a href="/Basvuru/CreateVericiIletisimBilgileri?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-primary">Iletisim bilgileri</a>
+                                </text>
+                            }
+
+                        }
+                        else
+                        {
+                            <label class="text-light-blue">Ev adresi: </label> @Model.GonulluVerici.VericiIletisimBilgileri.EvAdresi <br />
+                            <label class="text-light-blue">Is adresi: </label> @Model.GonulluVerici.VericiIletisimBilgileri.IsAdresi <br />
+                            <label class="text-light-blue">Ev telefonu: </label> @Model.GonulluVerici.VericiIletisimBilgileri.EvTelefonu <br />
+                            <label class="text-light-blue">Is telefonu: </label>@Model.GonulluVerici.VericiIletisimBilgileri.IsTelefonu <br />
+                            <label class="text-light-blue">Cep telefonu: </label>@Model.GonulluVerici.VericiIletisimBilgileri.CepTelefonu <br />
+                            <label class="text-light-blue">Email adresi: </label>@Model.GonulluVerici.VericiIletisimBilgileri.Email <br />
+
+                            if (Model.Active)
+                            {
+                                <text>
+                                    <a href="/Basvuru/EditVericiIletisimBilgileri?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-danger">Iletisim bilgileri duzenle</a>
+                                </text>
+                            }
+                        }
+
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">Basvuru Yakini Iletisim Bilgileri</h3>
+
+                        @if (Model.GonulluVerici.GonulluVericiYakini != null)
+                        {
+                            <i class="fa fa-check" style="color:green"></i>
+                        }
+                    </div>
+                    <div class="box-body">
+                        @if (Model.GonulluVerici.GonulluVericiYakini == null)
+                        {
+                            if (Model.Active)
+                            {
+                                <text>
+                                    <a href="/Basvuru/CreateVericiYakiniIletisimBilgileri?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-primary">Verici yakini iletisim bilgileri</a>
+                                </text>
+                            }
+                        }
+                        else
+                        {
+                            <label class="text-light-blue">Adi soyadi </label> @Model.GonulluVerici.GonulluVericiYakini.AdiSoyadi <br />
+                            <label class="text-light-blue">Ev adresi : </label>@Model.GonulluVerici.GonulluVericiYakini.IletisimBilgileri.EvAdresi <br />
+                            <label class="text-light-blue">Is adresi : </label>@Model.GonulluVerici.GonulluVericiYakini.IletisimBilgileri.IsAdresi <br />
+                            <label class="text-light-blue">Ev telefonu : </label>@Model.GonulluVerici.GonulluVericiYakini.IletisimBilgileri.EvTelefonu <br />
+                            <label class="text-light-blue">Is telefonu : </label>@Model.GonulluVerici.GonulluVericiYakini.IletisimBilgileri.IsTelefonu <br />
+                            <label class="text-light-blue">Cep telefonu :</label>@Model.GonulluVerici.GonulluVericiYakini.IletisimBilgileri.CepTelefonu <br />
+                            <label class="text-light-blue">Email adresi : </label>@Model.GonulluVerici.GonulluVericiYakini.IletisimBilgileri.Email <br />
+
+                            if (Model.Active)
+                            {
+                                <text>
+                                    <a href="/Basvuru/EditVericiYakiniIletisimBilgileri?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-danger">Verici yakini iletisim bilgileri duzenle</a>
+                                </text>
+                            }
+                        }
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">Hastalik Bilgileri</h3>
+
+                        @if (Model.GonulluVerici.Hastaliklar != null)
+                        {
+                            <i class="fa fa-check" style="color:green"></i>
+                        }
+
+                    </div>
+                    <div class="box-body">
+                        @if (Model.GonulluVerici.Hastaliklar == null)
+                        {
+                            if (Model.Active)
+                            {
+                                <text>
+                                        <a href="/Basvuru/CreateHastaliklar?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-primary">Hastalik bilgileri</a>
+                                </text>
+                            }
+                        }
+                        else
+                        {
+                            <label class="text-light-blue">Surekli tedavi olmasi gerekli mi:</label> @Model.GonulluVerici.Hastaliklar.SurekliTedaviOlmasiGereklimi<br />
+                            <label class="text-light-blue">Kanser :</label> <label class="text-light-blue"></label>@Model.GonulluVerici.Hastaliklar.Kanser<br />
+                            <label class="text-light-blue">Aids-Hiv: </label>@Model.GonulluVerici.Hastaliklar.AidsHiv<br />
+                            <label class="text-light-blue">Hepatit-B</label>@Model.GonulluVerici.Hastaliklar.HepatitB<br />
+                            <label class="text-light-blue">Hepatit-C</label>@Model.GonulluVerici.Hastaliklar.HepatitC<br />
+                            <label class="text-light-blue">Sifiliz</label>@Model.GonulluVerici.Hastaliklar.Sifiliz<br />
+
+                            if (Model.Active)
+                            {
+                                <text>
+                                    <a href="/Basvuru/EditHastaliklar?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-danger">Hastalik bilgileri duzenle</a>
+                                </text>
+                            }
+                        }
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">Seralojik test Bilgileri</h3>
+
+                        @if (Model.GonulluVerici.SerolojikTestler != null)
+                        {
+                            <i class="fa fa-check" style="color:green"></i>
+                        }
+
+                    </div>
+                    <div class="box-body">
+                        @if (Model.GonulluVerici.SerolojikTestler == null)
+                        {
+                            if (Model.Active)
+                            {
+                                <text>
+                                    <a href="/Basvuru/CreateSerolojikTestler?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-primary">Serolojik test bilgileri</a>
+                                </text>
+                            }
+                        }
+                        else
+                        {
+                            <label class="text-light-blue">HBsAg: </label>@Model.GonulluVerici.SerolojikTestler.HBsAg<br />
+                            <label class="text-light-blue">Sifiliz: </label>@Model.GonulluVerici.SerolojikTestler.Sifiliz<br />
+                            <label class="text-light-blue">AntiHcv: </label>@Model.GonulluVerici.SerolojikTestler.AntiHcv<br />
+                            <label class="text-light-blue">AntiHiv: </label>@Model.GonulluVerici.SerolojikTestler.AntiHiv<br />
+
+                            if (Model.Active)
+                            {
+                                <text>
+                                    <a href="/Basvuru/EditSerolojikTestler?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-danger">Serolojik test bilgileri duzenle</a>
+                                </text>
+                            }
+                        }
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-4">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">Hematolojik test Bilgileri</h3>
+
+                        @if (Model.GonulluVerici.HematolojikTestler != null)
+                        {
+                            <i class="fa fa-check" style="color:green"></i>
+                        }
+                    </div>
+                    <div class="box-body">
+                        @if (Model.GonulluVerici.HematolojikTestler == null)
+                        {
+                            if (Model.Active)
+                            {
+                                <text>
+                                     <a href="/Basvuru/CreateHematolojikTestler?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-primary">Hematolojik test bilgileri</a>
+                                </text>
+                            }
+                        }
+                        else
+                        {
+                            <label class="text-light-blue">Hemogram: </label>@Model.GonulluVerici.HematolojikTestler.Hemogram<br />
+                            <label class="text-light-blue">Kan grubu: </label>@Model.GonulluVerici.HematolojikTestler.KanGrubu<br />
+
+                            if (Model.Active)
+                            {
+                                <text>
+                                    <a href="/Basvuru/EditHematolojikTestler?gv=@Model.GonulluVerici.Id" class="btn btn-sm btn-danger">Hematolojik test bilgileri</a>
+                                </text>
+                            }
+                        }
+                    </div>
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</aside>
+

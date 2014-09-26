@@ -1,0 +1,102 @@
+﻿@model Gvm.Models.ApproveOrEditUserViewModel
+@{
+    ViewBag.Title = "Kullanıcıyı Düzelt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1> Kullanıcıyı Düzelt </h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                @if (ViewData.ModelState.IsValid == false)
+                {
+                    <div class="alert alert-danger alert-dismissable">
+                        <i class="fa fa-ban"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        @Html.ValidationSummary(true)
+                        @Html.ValidationMessage("Error")
+                    </div>
+                }
+
+                <div class="well well-sm">
+                    <div class="form-horizontal">
+                        <dl class="col-md-11 col-md-offset-1">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.UserName)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.UserName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.AdiSoyadi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.AdiSoyadi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.BasvuruTarihi)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.BasvuruTarihi)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.SelectedRole)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.SelectedRole)
+                            </dd>
+                            
+                            <dt>
+                                @Html.DisplayNameFor(model => model.NotWorkingForUnit)
+                            </dt>
+
+                            <dd>
+                                @if (Model.NotWorkingForUnit)
+                                {
+                                    <p>Çalışmıyor</p>
+                                }
+                                else
+                                {
+                                    <p>Çalışıyor</p>
+                                }
+                            </dd>
+                        </dl>
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(model => model.UserId)
+                            @Html.HiddenFor(model => model.UserName)
+                            
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Roller, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(x => x.SelectedRole, Model.Roller, "Pasif Kullanıcı")
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Kaydet" class="btn btn-default" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>

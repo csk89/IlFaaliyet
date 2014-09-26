@@ -1,0 +1,220 @@
+﻿@model Gvm.Models.IndexViewModel
+@{
+    ViewBag.Title = "Profil";
+}
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Profil Sayfası</h1>
+    </section>
+
+    <section class="content">
+        <div class="row box-danger">
+            <div class="col-xs-12">
+
+                @if (ViewData.ModelState.IsValid == false)
+                {
+                    <div class="alert alert-danger alert-dismissable">
+                        <i class="fa fa-ban"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        @Html.ValidationSummary(true)
+                        @Html.ValidationMessage("Error")
+                    </div>
+                }
+                
+                @if (string.IsNullOrEmpty(ViewBag.StatusMessage) == false)
+                {
+                    <div class="alert alert-success alert-dismissable">
+                        <i class="fa fa-check"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <b>@ViewBag.StatusMessage</b>
+                    </div>
+                }
+
+                <div class="box">
+                    <div class="box-header">
+
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <h4>Hesap Bilgilerini Değiştir</h4>
+                                    <hr />
+                                    <dl class="dl-horizontal">
+                                        <dt>Şifre:</dt>
+                                        <dd>
+                                            [<a data-toggle="modal" data-target="#changepassword">Yenile</a>]
+                                        </dd>
+                                        <dt>Ev/İş Telefonu:</dt>
+                                        <dd>
+                                            @if (string.IsNullOrEmpty(Model.WorkPhone))
+                                            {
+                                                <span>Kayıtlı Değil</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@Model.WorkPhone</span>
+                                            }
+                                            [<a data-toggle="modal" data-target="#changeworkphone">Yenile</a>]
+                                        </dd>
+                                        <dt>Cep Telefonu:</dt>
+                                        <dd>
+                                            @if (string.IsNullOrEmpty(Model.CellPhone))
+                                            {
+                                                <span>Kayıtlı Değil</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@Model.CellPhone</span>
+                                            }
+                                            [<a data-toggle="modal" data-target="#changecellphone">Yenile</a>]
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
+
+<div class="modal fade" id="changeworkphone" tabindex="-1" role="dialog" aria-labelledby="changeworkphone" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Ev/İş Telefonunu Yenile</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @using (Html.BeginForm("ChangeWorkPhone", "Manage", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Ev/İş telefonu</label>
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">0</span>
+                                            <input id="workphone" name="workphone" class="form-control" placeholder="" value="@Model.WorkPhone">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Yenile" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changecellphone" tabindex="-1" role="dialog" aria-labelledby="changecellphone" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Cep Telefonunu Yenile</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @using (Html.BeginForm("ChangeCellPhone", "Manage", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Cep telefonu</label>
+                                    <div class="col-md-8">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">0</span>
+                                            <input id="cellphone" name="cellphone" class="form-control" placeholder="" value="@Model.CellPhone">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Yenile" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="changepassword" tabindex="-1" role="dialog" aria-labelledby="changepassword" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Şifreni Yenile</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Eski Şifren</label>
+                                    <div class="col-md-8">
+                                        <input type="password" id="OldPassword" name="OldPassword" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Yeni Şifren</label>
+                                    <div class="col-md-8">
+                                        <input type="password" id="NewPassword" name="NewPassword" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Yeni Şifre Doğrulaması</label>
+                                    <div class="col-md-8">
+                                        <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Yenile" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+﻿@{
+    ViewBag.Title = "E-postanız Doğrulandı";
+}
+
+<h2>@ViewBag.Title.</h2>
+<div>
+    <p>
+        E-postanızı doğruladığınız için teşekkür ederiz. Üyeliğiniz onaylanınca uygulamaya @Html.ActionLink("buradan", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" }) giriş yapabilirsiniz.
+    </p>
+</div>

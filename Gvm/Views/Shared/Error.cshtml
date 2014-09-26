@@ -1,0 +1,46 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Hata";
+}
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Hata</h1>
+    </section>
+
+    <section class="content">
+        <div class="row box-danger">
+            <div class="col-xs-12">
+                @if (ViewData.ModelState.IsValid == false)
+                {
+                    <div class="alert alert-danger alert-dismissable">
+                        <i class="fa fa-ban"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        @Html.ValidationSummary(true)
+                        @Html.ValidationMessage("Error")
+                    </div>
+                }
+
+                <div class="box">
+                    <div class="box-header">
+
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h1 class="text-danger">Hata.</h1>
+                                <h2 class="text-danger">İşleminiz gerçekleşirken bir sorun oluştu.</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-footer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>

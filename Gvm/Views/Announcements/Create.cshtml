@@ -1,0 +1,60 @@
+﻿@model Turkok.Model.Announcement
+
+@{
+    ViewBag.Title = "Yeni Duyuru";
+}
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1> Yeni Duyuru </h1>
+    </section>
+
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well well-sm">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Title)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Description, new{ @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Description)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.PublishDate, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @(Html.Kendo().DatePicker()
+                                      .Name("PublishDate")
+                                      .Value(DateTime.Now.ToShortDateString())
+                                    )
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Yayinla" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Turkok.Model.AuthorisationResource>
+
+@{
+    ViewBag.Title = "Rol Yetkileri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>Rol Yetkileri</h1>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="tree">
+                    <ul role="tree">
+                        <li class="parent_li" role="treeitem">
+                            <span title="Collapse this branch"><i class="fa fa-lg fa-folder-open"></i> '@ViewBag.RoleName' Rolü Yetkileri </span>
+                            <ul role="group">
+                                @foreach (var resource in Model)
+                                {
+                                    <li class="parent_li" role="treeitem">
+                                        <span title="Collapse this branch"><i class="fa fa-lg fa-plus-circle"></i> @resource.Name</span>
+                                        <ul role="group">
+                                            @foreach (var action in resource.Actions)
+                                            {
+                                                <li>
+                                                    @Html.CheckBox(resource.Name + "_" + action.Name, action.IsSelected, new { name = "checkbox-inline", @class = "action-checkbox", data_rolename = ViewBag.RoleName, data_resourcename = resource.Name, data_actionname = action.Name })
+                                                    <i></i>@action.Name
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>
+
+<script>
+    
+
+    function setBootstrapTree() {
+        /*! SmartAdmin - v1.4.1 - 2014-06-26 */
+        $(".tree > ul").attr("role", "tree").find("ul").attr("role", "group"), $(".tree").find("li:has(ul)").addClass("parent_li").attr("role", "treeitem").find(" > span").attr("title", "Collapse this branch").on("click", function (a) {
+            var b = $(this).parent("li.parent_li").find(" > ul > li");
+            b.is(":visible") ? (b.hide("fast"), $(this).attr("title", "Expand this branch").find(" > i").addClass("icon-plus-sign").removeClass("icon-minus-sign")) : (b.show("fast"), $(this).attr("title", "Collapse this branch").find(" > i").addClass("icon-minus-sign").removeClass("icon-plus-sign")), a.stopPropagation()
+        });
+    }
+    
+    function setCheckBoxes() {
+
+        var ajaxf = function (chck, rolename, resourceName, actionName, toBeChecked) {
+            var url = '@Url.Action("SetActionAuthorisation", "ClaimAuthorisation")';
+            var data = { roleName: rolename, resourceName: resourceName, actionName: actionName, toBeChecked: toBeChecked };
+            
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: data,
+                success: function (result) {
+                    if (result.Error != "") alert(result.Error);
+
+                    if (result.IsDone == "AlreadyChecked") {
+                        chck.iCheck('check');
+
+                        alert("Bu yetki zaten seçiliydi!");
+                    }
+
+                    if (result.IsDone == "AlreadyUnchecked") {
+                        
+                        chck.iCheck('uncheck');
+
+                        alert("Bu yetki zaten seçili değildi!");
+                    }
+
+                    if (result.IsDone == "Checked" || result.IsDone == "Unchecked") {
+                        //alert("İşleminiz gerçekleştirildi!");
+
+                        window.location.href = '@Url.Action("RoleAuthorisations", "ClaimAuthorisation", new { roleName = ViewBag.RoleName })';
+                    }
+                }
+            });
+        };
+
+
+        $('input.action-checkbox').on('ifChecked ifUnchecked', function (event) {
+            var toBeChecked = event.type == 'ifChecked';
+            var rolename = $(this).data('rolename');
+            var resourceName = $(this).data('resourcename');
+            var actionName = $(this).data('actionname');
+            var chck = $(this);
+
+            ajaxf(chck, rolename, resourceName, actionName, toBeChecked);
+        });
+    }
+
+    $(document).ready(function() {
+        setBootstrapTree();
+        setCheckBoxes();
+    });
+</script>
