@@ -8,7 +8,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Gvm.Models;
-using Gvm.Infra;
 using Turkok.Model;
 
 namespace Gvm.Controllers

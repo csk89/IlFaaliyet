@@ -47,7 +47,7 @@ namespace Gvm.Migrations
         {
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
-            string[] roleNames = { "admin", "test", "Yönetici", "Ýl Yöneticisi", "Ýl Gözlemcisi", "Ýl Sorumlusu" };
+            string[] roleNames = { "admin", "Yönetici", "Ýl Yöneticisi", "Ýl Gözlemcisi", "Ýl Sorumlusu" };
 
             foreach (var roleName in roleNames)
             {

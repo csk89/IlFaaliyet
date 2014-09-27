@@ -6,7 +6,7 @@
 
 <aside class="right-side">
     <section class="content-header">
-        <h1>Faaliyetler</h1>
+        <h1>Hedefler</h1>
     </section>
     <section class="content">
         <div class="row box-danger">
@@ -16,28 +16,17 @@
                     </div>
                     <div class="box-body" style="padding: 10px;">
                         <div class="pull-left">
-                            @Html.ActionLink("Yeni Faaliyet", "Create", "Action", null, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Yeni Hedef", "Create", "Target", null, new { @class = "btn btn-primary" })
                         </div>
                         <div class="clearfix"></div>
-                        @(Html.Kendo().Grid<Turkok.Model.Action>()
+                        @(Html.Kendo().Grid<Turkok.Model.Target>()
                         .Name("grid")
                         .Columns(columns =>
                         {
-                                columns.Bound(p => p.Name).Width(220).Title("Faaliyet Adı");
-                                columns.Bound(p => p.ActionId).Width(220).Title("Faaliyet No");
-                                columns.Bound(p => p.DeptCharged.Name).Width(220).Title("Sorumlu Birim");
-                                columns.Bound(p => p.SupportUnit).Width(220).Title("Destek Birim");
-                                columns.Bound(p => p.Collaborators).Width(220).Title("İşbirliği Yapılacak Kurum ve Kuruluşlar");
-                                columns.Bound(p => p.IndicatorName).Width(220).Title("Gösterge Adı");
-                                columns.Bound(p => p.IndicatorCurrentState).Width(220).Title("Gösterge Mevcut Durumu");
-                                columns.Bound(p => p.IndicatorObjective).Width(220).Title("2014 Yılı Gösterge Hedefi");
-                                columns.Bound(p => p.IndicatorOccurrenceValue).Width(220).Title("Gösterge Gerçekleşme Değeri");
-                                columns.Bound(p => p.StartDate).Width(220)
-                                       .ClientTemplate("#= kendo.toString(StartDate, 'g') #").Title("Başlangıç Zamanı");
-                                columns.Bound(p => p.EndDate).Width(220)
-                                       .ClientTemplate("#= kendo.toString(EndDate, 'g') #").Title("Bitiş Zamanı");
-                                columns.Bound(p => p.Description).Width(220).Title("Açıklama");
-                            })
+                            columns.Bound(p => p.Name).Width(220).Title("Hedef Adı");
+                            columns.Bound(p => p.TargetId).Width(220).Title("Hedef No");
+                            columns.Bound(p => p.CreationDate).Format("{0:dd/MM/yyyy}").Width(120).Title("Oluşturulma Zamanı");
+                        })
                         .Pageable(pageable => pageable.Refresh(true).PageSizes(true).ButtonCount(5))
                         .Sortable()
                         .Scrollable()
@@ -47,7 +36,7 @@
                             .PageSize(20)
                                 .Events(events => events.Error("error_handler"))
                                 .Model(model => model.Id(p => p.Id))
-                                .Read(read => read.Action("Read", "Action"))
+                                .Read(read => read.Action("Read", "Target"))
                         )
                         )
                     </div>

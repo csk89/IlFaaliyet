@@ -8,6 +8,20 @@ namespace Turkok.Model.Lookup
 {
     public class Resources
     {
+        public const string Targets = "Hedefler";
+        public class TargetActions
+        {
+            public const string View = "Görme";
+            public const string Edit = "Düzeltme";
+        }
+
+        public const string Actions = "Faaliyetler";
+        public class ActionActions
+        {
+            public const string View = "Görme";
+            public const string Edit = "Düzeltme";
+        }
+
         public const string Basvurular = "Başvurular";
         public class BasvurularActions
         {

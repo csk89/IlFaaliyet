@@ -17,7 +17,7 @@ namespace Turkok.Model
         [DisplayName("Faaliyet No")]
         public string ActionId { get; set; }
         [DisplayName("Sorumlu Birim")] //=> Bunun icin Unit class'i olustur
-        public string DeptCharged { get; set; } 
+        public int DeptChargedId { get; set; }
         [DisplayName("Destek Birim")] //=> Bunun icin Unit class'i olustur
         public string SupportUnit { get; set; }
         [DisplayName("İşbirliği Yapılacak Kurum ve Kuruluşlar")]
@@ -26,7 +26,7 @@ namespace Turkok.Model
         public string IndicatorName { get; set; }
         [DisplayName("Gösterge Mevcut Durumu")]
         public string IndicatorCurrentState { get; set; }
-        [DisplayName(".... Yılı Gösterge Hedefi")]
+        [DisplayName("2014 Yılı Gösterge Hedefi")] //Dinamik olmali
         public string IndicatorObjective { get; set; }
         [DisplayName("Gösterge Gerçekleşme Değeri")]
         public string IndicatorOccurrenceValue { get; set; }
@@ -36,6 +36,8 @@ namespace Turkok.Model
         public DateTime EndDate { get; set; }
         [DisplayName("Açıklama")]
         public string Description { get; set; }
-
+        public virtual Unit DeptCharged { get; set; }
+        //public virtual Unit SupportUnit { get; set; }
+        
     }
 }

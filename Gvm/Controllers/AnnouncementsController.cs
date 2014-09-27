@@ -104,7 +104,7 @@ namespace Gvm.Controllers
             return View(announcement);
         }
 
-        [Audit] 
+        [Audit]
         public ActionResult Delete(int? id)
         {
             if (id.HasValue == false)

@@ -39,6 +39,7 @@ namespace Gvm.Infra
         public IDbSet<City> Cities { get; set; }
         public IDbSet<Action> Actions { get; set; }
         public IDbSet<Target> Targets { get; set; }
+        public IDbSet<Unit> Units { get; set; }
 
         public override int SaveChanges()
         {
@@ -81,5 +82,13 @@ namespace Gvm.Infra
         {
             return new DataContext();
         }
+
+        /*
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Action>().HasOptional(a => a.DeptChargedId).WithOptionalPrincipal(a => a.)
+        }
+         */ 
     }
+
 }

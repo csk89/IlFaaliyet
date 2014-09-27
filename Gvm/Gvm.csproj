@@ -201,6 +201,7 @@
     <Compile Include="Controllers\KullanicilarController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ClaimAuthorisationController.cs" />
+    <Compile Include="Controllers\TargetController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1579,6 +1580,9 @@
     <Content Include="Views\Announcements\_View_ViewMode.cshtml" />
     <Content Include="Views\Action\Index.cshtml" />
     <Content Include="Views\Action\Create.cshtml" />
+    <Content Include="Views\Target\Index.cshtml" />
+    <Content Include="Views\Target\Create.cshtml" />
+    <Content Include="Views\Target\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

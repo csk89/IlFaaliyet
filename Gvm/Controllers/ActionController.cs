@@ -6,18 +6,24 @@ using System.Web.Mvc;
 using Gvm.Infra;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Thinktecture.IdentityModel.Authorization.Mvc;
 using Turkok.Core.Repository;
+using Turkok.Model;
+using Turkok.Model.Lookup;
 using Action = Turkok.Model.Action;
 
 namespace Gvm.Controllers
 {
+    [ClaimsAuthorize(Resources.ActionActions.View, Resources.Actions)]
     public class ActionController : MController
     {
         private readonly IRepository<Action> _repository;
+        private readonly IRepository<Unit> _unitRepository; 
 
-        public ActionController(IRepository<Action> repository)
+        public ActionController(IRepository<Action> repository, IRepository<Unit> unitRepository)
         {
             _repository = repository;
+            _unitRepository = unitRepository;
         }
 
         [Audit]
@@ -33,10 +39,11 @@ namespace Gvm.Controllers
         }
         public ActionResult Create()
         {
+            PopulateUnitsDropDownList();
             return View();
         }
 
-                [Audit]
+        [Audit]
         [HttpPost]
         public ActionResult Create(Action model)
         {
@@ -49,22 +56,10 @@ namespace Gvm.Controllers
 
             return View(model);
         }
-
-
-        /*
-        [Audit]
-        [HttpPost]
-        public ActionResult Create(Action action)
+        private void PopulateUnitsDropDownList(object selectedUnit = null)
         {
-            if (ModelState.IsValid)
-            {
-                Action createdItem = _repository.Add(action);
-                return RedirectToAction("Index");
-                //return RedirectToAction("View", new { id = createdItem.Id });
-            }
-
-            return View(action);
+            var unitQuery = _unitRepository.Table().OrderBy(u => u.Name);
+            ViewBag.DeptChargedId = new SelectList(unitQuery, "Id", "Name", selectedUnit);
         }
-         */
     }
 }

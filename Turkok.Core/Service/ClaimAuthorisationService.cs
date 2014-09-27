@@ -104,6 +104,30 @@ namespace Turkok.Core.Service
             var model = new List<AuthorisationResource>();
 
             // !!! UYARI: Bu veriler, kullanıcı yetkilerinin düzgün çalışabilmesi için kontrolsüz olarak değiştirilmemelidir !!!
+            var targets = new AuthorisationResource
+            {
+                Name = Resources.Targets,
+                Actions = new List<ResourceAction>
+            {
+                new ResourceAction{ Name = Resources.TargetActions.View },
+                new ResourceAction{ Name = Resources.TargetActions.Edit }
+            }
+            };
+
+            model.Add(targets);
+
+            var actions = new AuthorisationResource
+            {
+                Name = Resources.Actions,
+                Actions = new List<ResourceAction>
+            {
+                new ResourceAction{ Name = Resources.ActionActions.View },
+                new ResourceAction{ Name = Resources.ActionActions.Edit }
+            }
+            };
+
+            model.Add(actions);
+
             var basvurular = new AuthorisationResource
             {
                 Name = Resources.Basvurular,

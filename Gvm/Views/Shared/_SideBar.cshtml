@@ -35,6 +35,20 @@
 
         <ul class="sidebar-menu" id="sidebar-menu">
             
+            @if (ClaimsAuthorization.CheckAccess(Resources.TargetActions.View, Resources.Targets))
+            {
+                <li class="">
+                    <a href="@Url.Action("Index", "Target")" title="Hedefler"><i class="fa fa-lg fa-fw fa-file"></i> <span class="menu-item-parent">Hedefler</span></a>
+                </li>
+            }
+            
+            @if (ClaimsAuthorization.CheckAccess(Resources.ActionActions.View, Resources.Actions))
+            {
+                <li class="">
+                    <a href="@Url.Action("Index", "Action")" title="Faaliyetler"><i class="fa fa-lg fa-fw fa-file"></i> <span class="menu-item-parent">Faaliyetler</span></a>
+                </li>
+            }
+            
             @if (ClaimsAuthorization.CheckAccess(Resources.BasvurularActions.View, Resources.Basvurular))
             {
                 <li class="">

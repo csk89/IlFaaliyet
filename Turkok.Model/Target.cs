@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
@@ -10,8 +11,10 @@ namespace Turkok.Model
     public class Target
     {
         public int Id { get; set; }
+        [DisplayName("Hedef Adı")]
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
+        [DisplayName("Hedef No")]
         public string TargetId { get; set; }
         public ICollection<Action> Actions { get; set; }
     }

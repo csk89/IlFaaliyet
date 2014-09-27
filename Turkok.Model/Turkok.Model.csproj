@@ -82,12 +82,14 @@
     <Compile Include="GonulluVerici.cs" />
     <Compile Include="SerolojikTestler.cs" />
     <Compile Include="Target.cs" />
+    <Compile Include="Unit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="UnitsSqlScript.txt" />
     <Content Include="CitiesSqlScript.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

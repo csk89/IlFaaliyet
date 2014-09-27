@@ -1,0 +1,9 @@
+﻿SET IDENTITY_INSERT Units ON
+
+INSERT INTO Units(Id, Name) VALUES 
+(1, N'THSK'),
+(2, N'SGGM'),
+(3, N'SAGM'),
+(4, N'ASHGM')
+
+SET IDENTITY_INSERT Units OFF
