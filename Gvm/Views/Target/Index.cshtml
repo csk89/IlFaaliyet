@@ -23,9 +23,9 @@
                         .Name("grid")
                         .Columns(columns =>
                         {
-                            columns.Bound(p => p.Name).Width(220).Title("Hedef Adı");
+                            columns.Bound(p => p.Name).Width(220).Title("Hedef Adı").ClientTemplate("<a href='/Target/View/#= Id#'>#=Name#</a>");
                             columns.Bound(p => p.TargetId).Width(220).Title("Hedef No");
-                            columns.Bound(p => p.CreationDate).Format("{0:dd/MM/yyyy}").Width(120).Title("Oluşturulma Zamanı");
+                            columns.Bound(p => p.CreationDate).Format("{0:dd-MM-yyyy}").Width(120).Title("Oluşturulma Zamanı");
                         })
                         .Pageable(pageable => pageable.Refresh(true).PageSizes(true).ButtonCount(5))
                         .Sortable()

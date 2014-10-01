@@ -1,0 +1,43 @@
+﻿@model  ICollection<Turkok.Model.Action>
+@if (Model != null && Model.Any())
+{
+    <table class="table table-bordered table-responsive table-striped">
+        <tr>
+            <td>Faaliyet Adı</td>
+            <td>Faaliyet No</td>
+            <td>Sorumlu Birim</td>
+            <td>Destek Birim</td>
+            <td>İşbirliği Yapılacak Kurum ve Kuruluşlar</td>
+            <td>Gösterge Adı</td>
+            <td>Gösterge Mevcut Durumu</td>
+            <td>2014 Yılı Gösterge Hedefi</td>
+            <td>Gösterge Gerçekleşme Değeri</td>
+            <td>Başlangıç Zamanı</td>
+            <td>Bitiş Zamanı</td>
+            <td>Açıklama</td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td><a href='/Action/View/@item.Id'>@item.Name</a></td>
+                <td>@item.ActionId</td>
+                <td>@item.DeptCharged.Name</td>
+                <td>@item.SupportUnit</td>
+                <td>@item.Collaborators</td>
+                <td>@item.IndicatorName</td>
+                <td>@item.IndicatorCurrentState</td>
+                <td>@item.IndicatorObjective</td>
+                <td>@item.IndicatorOccurrenceValue</td>
+                <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
+                <td>@item.EndDate.ToString("dd-MM-yyyy")</td>
+                <td>@item.Description</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <text>Faaliyet yok.</text>
+}
+
+

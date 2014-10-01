@@ -5,11 +5,44 @@
     ViewBag.Title = Model.Name;
 }
 
-@if (ClaimsAuthorization.CheckAccess(Resources.DuyurularActions.Edit, Resources.Duyurular))
-{
-    @Html.Partial("_View_EditMode", Model)
-}
-else if (ClaimsAuthorization.CheckAccess(Resources.DuyurularActions.View, Resources.Duyurular))
-{
-    @Html.Partial("_View_ViewMode", Model)
-}
+<aside class="right-side">
+    <section class="content-header">
+        <h1>@Model.Name</h1>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="callout callout-info">
+                        <div class="pull-left">
+                            <strong>Hedef No:</strong>@Html.DisplayFor(model => model.TargetId)<br />
+                            <strong>Tarih:</strong>@Html.DisplayFor(model => model.CreationDate)<br />
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div>
+                        <div> <i class="fa"></i><strong>Faaliyetler</strong></div>
+                        @Html.ActionLink("Faaliyet Ekle", "Add", "Action", new { parentId = Model.Id }, new { @class = "btn btn-primary btn-sm" })
+                        <br />
+                        <div id="attachment_list">
+                            @if (Model.Actions != null)
+                            {
+                                @Html.Partial("ActionList", Model.Actions)
+                            }
+                        </div>
+                    </div>
+
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            @Html.ActionLink("Duzenle", "Edit", "Target", new { id = Model.Id }, new { @class = "btn btn-primary btn-sm" })
+                            @Html.ActionLink("Sil", "Delete", "Target", new { id = Model.Id }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('Are you sure you wish to delete this ?');" })
+                            @Html.ActionLink("Hedefler", "Index", null, new { @class = "btn btn-info btn-sm" })
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>

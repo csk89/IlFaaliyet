@@ -1,0 +1,128 @@
+﻿@model Turkok.Model.Action
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1>@Model.Name</h1>
+    </section>
+
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well well-sm">
+                    <hr />
+                    <dl>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ActionId)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ActionId)
+                        </dd>
+
+                        <dt>
+                            Sorumlu Birim
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.DeptCharged.Name)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.SupportUnit)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.SupportUnit)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Collaborators)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Collaborators)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.IndicatorName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.IndicatorName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.IndicatorCurrentState)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.IndicatorCurrentState)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.IndicatorObjective)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.IndicatorObjective)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.IndicatorOccurrenceValue)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.IndicatorOccurrenceValue)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.StartDate)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.StartDate)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.EndDate)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.EndDate)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+                    </dl>
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            @Html.ActionLink("Duzenle", "Edit", "Action", new { id = Model.Id }, new { @class = "btn btn-primary btn-sm" })
+                            @Html.ActionLink("Sil", "Delete", "Action", new { id = Model.Id }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('Are you sure you wish to delete this ?');" })
+                            @Html.ActionLink("Faaliyetler", "Index", null, new { @class = "btn btn-info btn-sm" })
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>

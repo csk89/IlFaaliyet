@@ -1583,6 +1583,11 @@
     <Content Include="Views\Target\Index.cshtml" />
     <Content Include="Views\Target\Create.cshtml" />
     <Content Include="Views\Target\View.cshtml" />
+    <Content Include="Views\Shared\ActionList.cshtml" />
+    <Content Include="Views\Action\Add.cshtml" />
+    <Content Include="Views\Target\Edit.cshtml" />
+    <Content Include="Views\Action\View.cshtml" />
+    <Content Include="Views\Action\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

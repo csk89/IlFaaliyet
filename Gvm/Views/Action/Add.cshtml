@@ -1,0 +1,149 @@
+﻿@model Turkok.Model.Action
+
+@{
+    ViewBag.Title = "Yeni Faaliyet";
+}
+
+<h2>Yeni Faaliyet</h2>
+
+<aside class="right-side">
+
+    <section class="content-header">
+        <h1> Yeni Faaliyet </h1>
+    </section>
+
+
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well well-sm">
+                    @using (Html.BeginForm("AddAction", "Target", new{parentId = ViewBag.ParentId}, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ActionId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.ActionId, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ActionId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            @*
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DeptCharged, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.DeptCharged, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DeptCharged, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            *@
+
+                            <div class="form-group">
+                                <label class="control-label col-md-2" for="DeptChargedId">Sorumlu Birim</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("DeptChargedId", null, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.DeptChargedId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.SupportUnit, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.SupportUnit, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.SupportUnit, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Collaborators, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Collaborators, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Collaborators, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IndicatorName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.IndicatorName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IndicatorName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IndicatorCurrentState, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.IndicatorCurrentState, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IndicatorCurrentState, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IndicatorObjective, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.IndicatorObjective, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IndicatorObjective, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.IndicatorOccurrenceValue, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.IndicatorOccurrenceValue, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.IndicatorOccurrenceValue, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @(Html.Kendo().DatePicker()
+                                          .Name("StartDate")
+                                          .Value(DateTime.Now.ToShortDateString())
+                                    )
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EndDate, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @(Html.Kendo().DatePicker()
+                              .Name("EndDate")
+                              .Value(DateTime.Now.ToShortDateString())
+                                    )
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Description)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Kaydet" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</aside>

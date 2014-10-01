@@ -31,8 +31,10 @@ namespace Turkok.Model
         [DisplayName("Gösterge Gerçekleşme Değeri")]
         public string IndicatorOccurrenceValue { get; set; }
         [DisplayName("Başlangıç Zamanı")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime StartDate { get; set; }
         [DisplayName("Bitiş Zamanı")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime EndDate { get; set; }
         [DisplayName("Açıklama")]
         public string Description { get; set; }
